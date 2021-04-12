@@ -1,0 +1,76 @@
+/* Set some default dimensions */
+html, body {
+	
+	height: 100%;
+	background-color: #141414;
+	scroll-behavior: smooth;
+
+}
+
+a {
+	color: #ff3f75;
+	text-decoration: none;
+}
+
+* { /* This disable all CSS transitions (Bad Chrome, bad!) */
+    
+    -o-transition-property: none !important;
+    -moz-transition-property: none !important;
+    -ms-transition-property: none !important;
+    -webkit-transition-property: none !important;
+    transition-property: none !important;
+
+}
+
+.header {
+	
+	font-family: 'Oswald', sans-serif;
+	text-align: center;
+  	top: 50%;
+	left: 50%;
+	color: #ff3f75;  
+
+}
+
+.subtitle {
+
+	font-family: 'Oswald', sans-serif;
+	color: white;
+	text-align: center;
+	top: 70%;
+	left: 50%;
+	padding-bottom: 20px;
+
+}
+
+.form-container {
+
+	font-family: 'Lato', sans-serif;
+	border: 2px solid #303030;
+	background-color: #202020;
+	line-height: 2em;
+	width: 50%;
+	margin: auto;
+	padding: 10px;
+	text-align: center;
+
+}
+
+.form-header {
+
+	font-family: 'Roboto', sans-serif;
+	color: white;
+
+}
+
+.custom-file-input {
+
+	color: white;
+
+}
+
+.container {
+
+	padding-bottom: 50px;
+
+}

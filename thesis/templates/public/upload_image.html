@@ -1,0 +1,65 @@
+<html>
+	
+	<head>
+		
+		<link rel = "icon" type = "image/png" href = "static/favicon.png">
+		<link rel = "stylesheet" href = "static/stylesheets/upload.css">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Lato&family=Oswald&family=Roboto&display=swap" rel="stylesheet">
+	
+	</head>
+
+	<body>
+
+		<div class = "container">
+			
+			<div class = "header">
+				
+				<h1>Thumbnail Generation for Social Media Feeds</h1>
+			
+			</div>
+
+			<div class = "subtitle">
+
+				This project is intended to generate suitable image preview thumbnails for social media feeds. <br>
+				This is acheived by cropping a given image to the focal point of the image. <br>
+				For this first stage of the project, this "focal point" is almost always a face, if <br>
+				one appears in the image. If no face is found, the focal point is determined to be in the <br>
+				centre of the image, and a region 25% the size of the original image is chosen. <br>
+				<br>
+				The cropped images are then scaled to a standard size, exactly 600x335. Based on <a href = "https://louisem.com/217438/twitter-image-size">Twitter's minumum <br>
+				feed image size.</a>
+
+			</div>
+
+			<div class = "form-container">
+					
+				<form action = "/" method = "POST" enctype="multipart/form-data">
+							
+					<label class = "form-header">Select image</label>
+					
+					<div class = "custom-file">
+							
+						<input type = "file" class = "custom-file-input" name = "image" id = "image">
+						
+					</div>
+
+					<button type = "submit" class = "btn btn-primary">Upload</button>
+
+				</form>
+
+			</div>
+
+			<div class = "form-container" id = "imageframe">
+				
+				<img id = "sourceimage">
+			
+			</div>
+		
+		</div>
+
+		<script type = "text/javascript" src = "static/scripts/showProcessedImage.js"></script>
+
+	</body>
+
+</html>
