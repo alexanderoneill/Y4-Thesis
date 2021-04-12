@@ -21,14 +21,11 @@
 
 			<div class = "subtitle">
 
-				This project is intended to generate suitable image preview thumbnails for social media feeds. <br>
-				This is acheived by cropping a given image to the focal point of the image. <br>
-				For this first stage of the project, this "focal point" is almost always a face, if <br>
-				one appears in the image. If no face is found, the focal point is determined to be in the <br>
-				centre of the image, and a region 25% the size of the original image is chosen. <br>
-				<br>
-				The cropped images are then scaled to a standard size, exactly 600x335. Based on <a href = "https://louisem.com/217438/twitter-image-size">Twitter's minumum <br>
-				feed image size.</a>
+				This project has two main purposes.<br>
+				The first is to generate suitable image preview thumbnails for social media feeds.<br>
+				The second is to highlight the outcomes of different approaches to acheiving this first task.<br>
+				This project utilises two main technologies: classifiers and neural networks.<br>
+				The classifier solutions are listed on the left, and the neural networks are listed on the right.<br>
 
 			</div>
 
@@ -50,12 +47,26 @@
 
 			</div>
 
-			<div class = "form-container" id = "imageframe">
+			<div class = "form-container">
 				
-				<img id = "sourceimage">
+				<div class = "result-container-1" id = "classimageframe">
+
+					<h2>Classifier Result</h2>
+					
+					<img id = "classsourceimage">
+				
+				</div>
+
+				<div class = "result-container-2" id = "neurimageframe">
+
+					<h2>Neural Network Result</h2>
+					
+					<img id = "neursourceimage">
+				
+				</div>
 			
 			</div>
-		
+			
 		</div>
 
 		<script type = "text/javascript" src = "static/scripts/showProcessedImage.js"></script>

@@ -1,0 +1,19 @@
+HIGH LEVEL GOALS:
+	Neural Network solution
+	Higher user interaction
+
+TO DO?
+	- Neural Network solution (NNS)
+		- Show NNS alongside Classifier solution (CS)
+	- Multiple Classifier solutions (CSs)
+		- Radio selection to allow user to select what CS to use
+	- Multiple Neural Network solutions (NNSs)
+		- Radio selection to allow user to select what NNS to use
+	- Better image scaling
+		- Allow user to define image dimensions?
+
+FUNC REQ
+	- User must be able to choose what classifier solution to use
+	- User must be able to choose what neural network solution to use
+	- User must be able to define scaled image dimensions
+	- Site must display results of both selected solutions side-by-side

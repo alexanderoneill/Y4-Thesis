@@ -3,21 +3,26 @@ window.onload = init;
 			function init() {
 				
 				// Get div that stores image, and the image itself
-				var imageBox = document.getElementById("imageframe");
-				var sourceImage = document.getElementById("sourceimage");
-
+				var classImageBox = document.getElementById("classimageframe");
+				var neurImageBox = document.getElementById("neurimageframe");
+				var classSourceImage = document.getElementById("classsourceimage");
+				var neurSourceImage = document.getElementById("neursourceimage");
+ 							
 				// If the user has the cookie given by this site
 				if (document.cookie.indexOf("IID") >= 0) {
 
 					// Show div containing image, change image to processed image submitted
 					// by user
-					imageBox.style.display = "block";
-					sourceImage.src = "static/faces/processed_images/".concat(getCookie("IID"))
+					classImageBox.style.display = "block";
+					neurImageBox.style.display = "block";
+					classSourceImage.src = "static/faces/processed_images/".concat(getCookie("IID"))
+					neurSourceImage.src = "static/faces/processed_images/".concat(getCookie("IID"))
 					}
 					else {
 					
 					// Keep image div hidden
-					imageBox.style.display = "none";
+					classImageBox.style.display = "none";
+					neurImageBox.style.display = "none";
 				
 				}
 

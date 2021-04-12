@@ -49,11 +49,12 @@ a {
 	border: 2px solid #303030;
 	background-color: #202020;
 	line-height: 2em;
-	width: 50%;
+	width: 65%;
 	margin: auto;
 	padding: 10px;
 	text-align: center;
-
+	overflow: auto;
+	color:#c9476c;
 }
 
 .form-header {
@@ -72,5 +73,31 @@ a {
 .container {
 
 	padding-bottom: 50px;
+
+}
+
+.result-container-1 {
+
+	font-family: 'Lato', sans-serif;
+	border: 0px;
+	line-height: 2em;
+	width: 50%;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	float: left;
+
+}
+
+.result-container-2 {
+
+	font-family: 'Lato', sans-serif;
+	border: 0px;
+	line-height: 2em;
+	width: 50%;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	float: right;
 
 }
