@@ -85,24 +85,30 @@ def scaleImage(STANDARD_HEIGHT, STANDARD_WIDTH, imageCropped):
 
 def saveFile(name, image):
 
-	path = os.path.join("./static/faces/processed_images", name).replace(os.sep, "/")
+	classpath = os.path.join("./static/faces/processed_images/classifier_images", name).replace(os.sep, "/")
+	neurpath = os.path.join("./static/faces/processed_images/neural_images", name).replace(os.sep, "/")
 
-	if cv2.imwrite(path, image):
+	if cv2.imwrite(classpath, image) and cv2.imwrite(neurpath, image):
 		print("Image saved successfully")
 	else:
 		print("Failed to save image")
 
-def cropAndScale(imagePath):
+def cropAndScale(imagePath, classifier):
 
-	# v----------v CODE ADAPTED FROM REALPYTHON.COM v---------v
 	# Define cascade
-	cascPath = "haarcascade_frontalface_default.xml"
-	faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + cascPath)
-
+	HAARpath = "haarcascade_frontalface_default.xml"
+	LBPpath = "./venv/Lib/site-packages/cv2/data/lbpcascade_frontalface.xml"
+	LBP2path = "./venv/Lib/site-packages/cv2/data/lbpcascade_frontalface_improved.xml"
+	if classifier == 1:
+		faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + HAARpath)
+	elif classifier == 2:
+		faceCascade = cv2.CascadeClassifier(LBPpath)
+	else:
+		faceCascade = cv2.CascadeClassifier(LBP2path)
+	
 	# Convert image to grayscale for facial detection
 	image = cv2.imread(imagePath)
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-	# ^----------^ CODE ADAPTED FROM REALPYTHON.COM ^---------^
 
 	STANDARD_WIDTH = 600
 	STANDARD_HEIGHT = 335

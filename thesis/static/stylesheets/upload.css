@@ -101,3 +101,30 @@ a {
 	float: right;
 
 }
+
+.radio-select-1 {
+	
+	float: left;
+	width: 33%;
+
+}
+
+.radio-select-2 {
+
+	float: left;
+	width: 33%;
+
+}
+
+.custom-file {
+
+	float: left;
+	width:34%;
+
+}
+
+.upload-form {
+
+	margin: 0px
+
+}

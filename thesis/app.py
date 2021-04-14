@@ -4,12 +4,14 @@ import os
 import cropper # For processing images
 import uuid # For uniquely identifying and linking user sessions and submitted images
 
+# I have learned that this is NOT how you're supposed to use Flask oops, sorry!
+
 app = Flask(__name__)
 
 # Config values
 app.config["IMAGE_UPLOADS"] = "./static/faces/user_images" # Default directory for uploaded images
 app.config["MAX_CONTENT_LENGTH"] = 50 * (1024 ** 2) # Max filesize for uploaded images (50MB)
-app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF", "BMP"]
+app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "BMP"]
 
 def validateFilename(filename):
 
@@ -55,8 +57,20 @@ def upload_image():
 				imagepath = ((os.path.join(app.config["IMAGE_UPLOADS"], filename))).replace(os.sep, "/")
 				image.save(imagepath)
 
+				# Get value of classifier radio menu
+				classifieroption = request.form["classvalue"]
+				if classifieroption == "haar":
+					classifier = 1
+					print("HAAR")
+				elif classifieroption == "lbp":
+					classifier = 2
+					print("LBP")
+				else:
+					classifier = 3
+					print("LBP2")
+
 				# Run face detection and cropper, generate unique identifier for processed image
-				imageCropped = cropper.cropAndScale(imagepath)
+				imageCropped = cropper.cropAndScale(imagepath, classifier)
 				imageID = str(uuid.uuid4().hex)
 				
 				# Generate filename for processed image, save processed image
