@@ -16,7 +16,7 @@ window.onload = init;
 					classImageBox.style.display = "block";
 					neurImageBox.style.display = "block";
 					classSourceImage.src = "static/faces/processed_images/classifier_images/".concat(getCookie("IID"))
-					neurSourceImage.src = "static/faces/processed_images/classifier_images/".concat(getCookie("IID"))
+					neurSourceImage.src = "static/faces/processed_images/neural_images/".concat(getCookie("IID"))
 					}
 					else {
 					

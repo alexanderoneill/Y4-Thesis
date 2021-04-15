@@ -35,10 +35,12 @@
 
 					<div class = "radio-select-1">
 
-						<h3>Classifier Cascade</h3>
-						<input type = "radio" id = "haar" name = "classvalue" value = "haar">HAAR<br>
-						<input type = "radio" id = "hopt" name = "classvalue" value = "lbp">LBP<br>
-						<input type = "radio" id = "hotm" name = "classvalue" value = "lbp2">LBP Improved<br>
+						<h3>Compare</h3>
+						<select name = "firstmethod" id = "firstmethod">
+							<option value = "haar">HAAR Cascade</option>
+							<option value = "lbp">LBP Cascade</option>
+							<option value = "lbp2">LBP Improved Cascade</option>
+						</select>
 	
 					</div>
 					
@@ -52,10 +54,12 @@
 
 					<div class = "radio-select-2">
 
-						<h3>Neural Network Training Set</h3>
-						<input type = "radio" id = "neur1" name = "neurvalue" value = "neur1">Neural Network 1<br>
-						<input type = "radio" id = "neur2" name = "neurvalue" value = "neur2">Neural Network 2<br>
-						<input type = "radio" id = "neur3" name = "neurvalue" value = "neur3">Neural Network 3<br>
+						<h3>Against</h3>
+						<select name = "secondmethod" id = "secondmethod">
+							<option value = "haar">HAAR Cascade</option>
+							<option value = "lbp">LBP Cascade</option>
+							<option value = "lbp2">LBP Improved Cascade</option>
+						</select>
 	
 					</div>
 

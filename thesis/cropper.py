@@ -83,28 +83,33 @@ def scaleImage(STANDARD_HEIGHT, STANDARD_WIDTH, imageCropped):
 
 	return imageScaled
 
-def saveFile(name, image):
+def saveFile(name, image1, image2):
 
 	classpath = os.path.join("./static/faces/processed_images/classifier_images", name).replace(os.sep, "/")
 	neurpath = os.path.join("./static/faces/processed_images/neural_images", name).replace(os.sep, "/")
 
-	if cv2.imwrite(classpath, image) and cv2.imwrite(neurpath, image):
+	if cv2.imwrite(classpath, image1) and cv2.imwrite(neurpath, image2):
 		print("Image saved successfully")
 	else:
 		print("Failed to save image")
 
-def cropAndScale(imagePath, classifier):
+def cropAndScale(imagePath, method):
 
-	# Define cascade
+	# Define method paths
 	HAARpath = "haarcascade_frontalface_default.xml"
 	LBPpath = "./venv/Lib/site-packages/cv2/data/lbpcascade_frontalface.xml"
 	LBP2path = "./venv/Lib/site-packages/cv2/data/lbpcascade_frontalface_improved.xml"
-	if classifier == 1:
+	
+	# Define method
+	if method == 1:
 		faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + HAARpath)
-	elif classifier == 2:
+		print("DEFINE HAAR")
+	elif method == 2:
 		faceCascade = cv2.CascadeClassifier(LBPpath)
+		print("DEFINE LBP")
 	else:
 		faceCascade = cv2.CascadeClassifier(LBP2path)
+		print("DEFINE LBP2")
 	
 	# Convert image to grayscale for facial detection
 	image = cv2.imread(imagePath)

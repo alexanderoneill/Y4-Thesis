@@ -57,25 +57,38 @@ def upload_image():
 				imagepath = ((os.path.join(app.config["IMAGE_UPLOADS"], filename))).replace(os.sep, "/")
 				image.save(imagepath)
 
-				# Get value of classifier radio menu
-				classifieroption = request.form["classvalue"]
-				if classifieroption == "haar":
-					classifier = 1
-					print("HAAR")
-				elif classifieroption == "lbp":
-					classifier = 2
-					print("LBP")
+				# Get value of first dropdown
+				firstoption = request.form["firstmethod"]
+				if firstoption == "haar":
+					firstmethod = 1
+					print("FIRST HAAR")
+				elif firstoption == "lbp":
+					firstmethod = 2
+					print("FIRST LBP")
 				else:
-					classifier = 3
-					print("LBP2")
+					firstmethod = 3
+					print("FIRST LBP2")
+				
+				# Get value of second dropdown
+				secondoption = request.form["secondmethod"]
+				if secondoption == "haar":
+					secondmethod = 1
+					print("SECOND HAAR")
+				elif secondoption == "lbp":
+					secondmethod = 2
+					print("SECOND LBP")
+				else:
+					secondmethod = 3
+					print("SECOND LBP2")
 
-				# Run face detection and cropper, generate unique identifier for processed image
-				imageCropped = cropper.cropAndScale(imagepath, classifier)
+				# Run face detection and cropper for first image, generate unique identifier for processed image
+				imageCropped = cropper.cropAndScale(imagepath, firstmethod)
+				secondImageCropped = cropper.cropAndScale(imagepath, secondmethod)
 				imageID = str(uuid.uuid4().hex)
 				
 				# Generate filename for processed image, save processed image
 				cropfilename = imageID + "." + filename.rsplit(".")[1]
-				cropper.saveFile(cropfilename, imageCropped)
+				cropper.saveFile(cropfilename, imageCropped, secondImageCropped)
 
 				# Redirect user to page that will give them a cookie
 				return redirect(request.url + "/" + cropfilename) 
