@@ -1,6 +1,7 @@
 import cv2
 import sys
 import os
+import numpy as np
 
 # Scan through image for faces
 def detectFaces(gray, cascade):
@@ -15,8 +16,6 @@ def detectFaces(gray, cascade):
 		flags = cv2.CASCADE_SCALE_IMAGE
 
 	)
-
-	print ("Found {0} faces".format(len(faces)))
 	# ^----------^ CODE ADAPTED FROM REALPYTHON.COM ^---------^
 	
 	return faces
@@ -69,13 +68,6 @@ def defaultRectangle(gray):
 
 	return (left, top, height, width)
 
-def cropImage(left, top, height, width, image):
-
-	# Crop image to most prominent face or centred rectangle using numpy truncation
-	imageCropped = image[top:top+height, left:left+width]
-
-	return imageCropped
-
 def scaleImage(STANDARD_HEIGHT, STANDARD_WIDTH, imageCropped):
 
 	# Scale to standard size
@@ -93,23 +85,9 @@ def saveFile(name, image1, image2):
 	else:
 		print("Failed to save image")
 
-def cropAndScale(imagePath, method):
+def cascadeCrop(imagePath, cascade):
 
-	# Define method paths
-	HAARpath = "haarcascade_frontalface_default.xml"
-	LBPpath = "./venv/Lib/site-packages/cv2/data/lbpcascade_frontalface.xml"
-	LBP2path = "./venv/Lib/site-packages/cv2/data/lbpcascade_frontalface_improved.xml"
-	
-	# Define method
-	if method == 1:
-		faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + HAARpath)
-		print("DEFINE HAAR")
-	elif method == 2:
-		faceCascade = cv2.CascadeClassifier(LBPpath)
-		print("DEFINE LBP")
-	else:
-		faceCascade = cv2.CascadeClassifier(LBP2path)
-		print("DEFINE LBP2")
+	faceCascade = cv2.CascadeClassifier(cascade)
 	
 	# Convert image to grayscale for facial detection
 	image = cv2.imread(imagePath)
@@ -127,7 +105,83 @@ def cropAndScale(imagePath, method):
 	else: # If faces were found, use largest face
 		left, top, height, width = findLargestFace(faces)
 
+	# Crop and scale image to standard dimensions
 	imageCropped = image[top:top+height, left:left+width]
 	imageScaled = scaleImage(STANDARD_HEIGHT, STANDARD_WIDTH, imageCropped)
 
 	return imageScaled
+
+def deepCrop(imagePath, protoPath, modelPath, givenConfidence):
+
+	# Define CAFFE model and image to use, as well as some variables we will use later
+	caffeNet = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
+	image = cv2.imread(imagePath)
+	(h, w) = image.shape[:2]
+	facesDict = {}
+	highestConfidence = 0
+
+	STANDARD_WIDTH = 600
+	STANDARD_HEIGHT = 335
+
+	# Preprocess image data
+	blob = cv2.dnn.blobFromImage(image, 1.0, (30, 30), (104.0, 177.0, 123.0))
+	caffeNet.setInput(blob)
+	detections = caffeNet.forward()
+
+	# Loop through all detected faces
+	for i in range(0, detections.shape[2]):
+		confidence = detections[0, 0, i, 2]
+
+		# If detected face exceeds confidence threshold
+		if confidence >= (int(givenConfidence)/100):
+
+			# Define bounding box around face
+			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+			(startX, startY, endX, endY) = box.astype("int")
+
+			# Append detected face to dictionary of high-confidence detections
+			facesDict[i] = [box, confidence]
+
+	# If there are suitable detections (i.e faces detected)
+	if len(facesDict) > 0:
+	
+		# Loop through all detected faces that match or exceed confidence threshold
+		for face in facesDict:
+
+			# Bubble sort faces by confidence level
+			if facesDict[face][1] > highestConfidence:
+				highestConfidence = facesDict[face][1]
+				mostProbableFace = facesDict[face]
+
+		# Get bounding box dimensions of face detection with highest confidence
+		left, top, width, height = int(mostProbableFace[0][0]), int(mostProbableFace[0][1]), int(mostProbableFace[0][2]), int(mostProbableFace[0][3])
+
+	else:
+
+		# Use default rectangle for cropping values
+		left, top, width, height = defaultRectangle(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY))	
+
+	# Crop and scale image using derived dimensions
+	imageCropped = image[top:top+height, left:left+width]
+	imageScaled = scaleImage(STANDARD_HEIGHT, STANDARD_WIDTH, imageCropped)
+
+	return imageScaled
+
+def determineMethod(imagePath, method, givenCofidence):
+
+	# Define method paths
+	HAARpath = "./venv/Lib/site-packages/cv2/data/haarcascade_frontalface_default.xml"
+	LBPpath = "./venv/Lib/site-packages/cv2/data/lbpcascade_frontalface.xml"
+	LBP2path = "./venv/Lib/site-packages/cv2/data/lbpcascade_frontalface_improved.xml"
+	CAFFEProtoPath = "deploy.prototxt.txt"
+	CAFFEModelPath = "res10_300x300_ssd_iter_140000.caffemodel"
+
+	# Define method
+	if method == 1:
+		return (cascadeCrop(imagePath, HAARpath))
+	elif method == 2:
+		return (cascadeCrop(imagePath, LBPpath))
+	elif method == 3:
+		return (cascadeCrop(imagePath, LBP2path))
+	else:
+		return (deepCrop(imagePath, CAFFEProtoPath, CAFFEModelPath, givenCofidence))

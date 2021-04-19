@@ -40,6 +40,7 @@
 							<option value = "haar">HAAR Cascade</option>
 							<option value = "lbp">LBP Cascade</option>
 							<option value = "lbp2">LBP Improved Cascade</option>
+							<option value = "caffe">CAFFE Model</option>
 						</select>
 	
 					</div>
@@ -59,8 +60,14 @@
 							<option value = "haar">HAAR Cascade</option>
 							<option value = "lbp">LBP Cascade</option>
 							<option value = "lbp2">LBP Improved Cascade</option>
+							<option value = "caffe">CAFFE Model</option>
 						</select>
 	
+					</div>
+
+					<div>
+						<input type = "range" min = "0" max = "100" value = "50" class = "confidence" id = "slider" name = "confidence">
+						<p>Neural Network Confidence Threshold: <span id="display"></span></p>
 					</div>
 
 					<button type = "submit" class = "btn btn-primary">Upload</button>
@@ -73,7 +80,7 @@
 				
 				<div class = "result-container-1" id = "classimageframe">
 
-					<h2>Classifier Result</h2>
+					<h2>Result 1</h2>
 					
 					<img id = "classsourceimage">
 				
@@ -81,7 +88,7 @@
 
 				<div class = "result-container-2" id = "neurimageframe">
 
-					<h2>Neural Network Result</h2>
+					<h2>Result 2</h2>
 					
 					<img id = "neursourceimage">
 				
@@ -92,6 +99,7 @@
 		</div>
 
 		<script type = "text/javascript" src = "static/scripts/showProcessedImage.js"></script>
+		<script type = "text/javascript" src = "static/scripts/showSliderRange.js"></script>
 
 	</body>
 
