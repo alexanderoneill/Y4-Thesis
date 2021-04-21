@@ -25,7 +25,7 @@
 				The first is to generate suitable image preview thumbnails for social media feeds.<br>
 				The second is to highlight the outcomes of different approaches to acheiving this first task.<br>
 				This project utilises two main technologies: classifiers and neural networks.<br>
-				The classifier solutions are listed on the left, and the neural networks are listed on the right.<br>
+				The different solutions can be compared using the drop down menus below.<br>
 
 			</div>
 
@@ -66,8 +66,10 @@
 					</div>
 
 					<div>
-						<input type = "range" min = "0" max = "100" value = "50" class = "confidence" id = "slider" name = "confidence">
-						<p>Neural Network Confidence Threshold: <span id="display"></span></p>
+						<p>Neural Network Confidence Threshold: <span id="confdisplay"></span></p>
+						<input type = "range" min = "0" max = "100" value = "50" class = "slider" id = "confslider" name = "confidence">
+						<p>Minimum Face Size: <span id="sizedisplay"></span></p>
+						<input type = "range" min = "10" max = "100" value = "30" class = "slider" id = "sizeslider" name = "size">
 					</div>
 
 					<button type = "submit" class = "btn btn-primary">Upload</button>

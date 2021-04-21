@@ -4,7 +4,7 @@ import os
 import numpy as np
 
 # Scan through image for faces
-def detectFaces(gray, cascade):
+def detectFaces(gray, cascade, givenSize):
 	
 	# v----------v CODE ADAPTED FROM REALPYTHON.COM v---------v
 	faces = cascade.detectMultiScale(
@@ -12,7 +12,7 @@ def detectFaces(gray, cascade):
 		gray,
 		scaleFactor = 1.1,
 		minNeighbors = 5,
-		minSize = (30, 30),
+		minSize = (givenSize, givenSize),
 		flags = cv2.CASCADE_SCALE_IMAGE
 
 	)
@@ -85,7 +85,7 @@ def saveFile(name, image1, image2):
 	else:
 		print("Failed to save image")
 
-def cascadeCrop(imagePath, cascade):
+def cascadeCrop(imagePath, cascade, givenSize):
 
 	faceCascade = cv2.CascadeClassifier(cascade)
 	
@@ -97,7 +97,7 @@ def cascadeCrop(imagePath, cascade):
 	STANDARD_HEIGHT = 335
 
 	# Find all faces
-	faces = detectFaces(gray, faceCascade)
+	faces = detectFaces(gray, faceCascade, givenSize)
 
 	# If no faces have been found, use default rectangle
 	if len(faces) == 0:
@@ -111,7 +111,7 @@ def cascadeCrop(imagePath, cascade):
 
 	return imageScaled
 
-def deepCrop(imagePath, protoPath, modelPath, givenConfidence):
+def deepCrop(imagePath, protoPath, modelPath, givenConfidence, givenMinSize):
 
 	# Define CAFFE model and image to use, as well as some variables we will use later
 	caffeNet = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
@@ -124,7 +124,7 @@ def deepCrop(imagePath, protoPath, modelPath, givenConfidence):
 	STANDARD_HEIGHT = 335
 
 	# Preprocess image data
-	blob = cv2.dnn.blobFromImage(image, 1.0, (30, 30), (104.0, 177.0, 123.0))
+	blob = cv2.dnn.blobFromImage(image, 1.0, (givenMinSize, givenMinSize), (104.0, 177.0, 123.0))
 	caffeNet.setInput(blob)
 	detections = caffeNet.forward()
 
@@ -167,7 +167,7 @@ def deepCrop(imagePath, protoPath, modelPath, givenConfidence):
 
 	return imageScaled
 
-def determineMethod(imagePath, method, givenCofidence):
+def determineMethod(imagePath, method, givenCofidence, givenSize):
 
 	# Define method paths
 	HAARpath = "./venv/Lib/site-packages/cv2/data/haarcascade_frontalface_default.xml"
@@ -178,10 +178,10 @@ def determineMethod(imagePath, method, givenCofidence):
 
 	# Define method
 	if method == 1:
-		return (cascadeCrop(imagePath, HAARpath))
+		return (cascadeCrop(imagePath, HAARpath, givenSize))
 	elif method == 2:
-		return (cascadeCrop(imagePath, LBPpath))
+		return (cascadeCrop(imagePath, LBPpath, givenSize))
 	elif method == 3:
-		return (cascadeCrop(imagePath, LBP2path))
+		return (cascadeCrop(imagePath, LBP2path, givenSize))
 	else:
-		return (deepCrop(imagePath, CAFFEProtoPath, CAFFEModelPath, givenCofidence))
+		return (deepCrop(imagePath, CAFFEProtoPath, CAFFEModelPath, givenCofidence, givenSize))

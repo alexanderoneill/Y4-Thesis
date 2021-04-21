@@ -1,7 +1,15 @@
-var slider = document.getElementById("slider");
-var output = document.getElementById("display");
-output.innerHTML = slider.nodeValue;
+var confslider = document.getElementById("confslider");
+var confoutput = document.getElementById("confdisplay");
+confoutput.innerHTML = confslider.nodeValue;
 
-slider.oninput = function() {
-    output.innerHTML = this.value;
+var sizeslider = document.getElementById("sizeslider");
+var sizeoutput = document.getElementById("sizedisplay");
+sizeoutput.innerHTML = sizeslider.nodeValue;
+
+confslider.oninput = function() {
+    confoutput.innerHTML = this.value;
+}
+
+sizeslider.oninput = function() {
+    sizeoutput.innerHTML = this.value;
 }

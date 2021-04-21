@@ -80,10 +80,11 @@ def upload_image():
 					secondmethod = 4
 
 				givenConfidence = request.form["confidence"]
+				givenSize = request.form["size"]
 
 				# Run face detection and cropper for first image, generate unique identifier for processed image
-				imageCropped = cropper.determineMethod(imagepath, firstmethod, givenConfidence)
-				secondImageCropped = cropper.determineMethod(imagepath, secondmethod, givenConfidence)
+				imageCropped = cropper.determineMethod(imagepath, firstmethod, givenConfidence, givenSize)
+				secondImageCropped = cropper.determineMethod(imagepath, secondmethod, givenConfidence, givenSize)
 				imageID = str(uuid.uuid4().hex)
 				
 				# Generate filename for processed image, save processed image
