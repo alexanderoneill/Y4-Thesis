@@ -1,108 +1,75 @@
+<!DOCTYPE html>
 <html>
-	
-	<head>
-		
-		<link rel = "icon" type = "image/png" href = "static/favicon.png">
-		<link rel = "stylesheet" href = "static/stylesheets/upload.css">
+	<head>	
+		<meta charset="utf-8">
+		<link rel="icon" type="image/png" href="static/favicon.png">
+		<link rel="stylesheet" href="static/stylesheets/upload.css">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Lato&family=Oswald&family=Roboto&display=swap" rel="stylesheet">
-	
 	</head>
-
 	<body>
-
-		<div class = "container">
-			
-			<div class = "header">
-				
+		<div class="container">	
+			<div class="header-container">
 				<h1>Thumbnail Generation for Social Media Feeds</h1>
-			
 			</div>
-
-			<div class = "subtitle">
-
+			<div class="subtitle-container">
 				This project has two main purposes.<br>
 				The first is to generate suitable image preview thumbnails for social media feeds.<br>
 				The second is to highlight the outcomes of different approaches to acheiving this first task.<br>
 				This project utilises two main technologies: classifiers and neural networks.<br>
 				The different solutions can be compared using the drop down menus below.<br>
-
 			</div>
-
-			<div class = "form-container">
-
-				<form action = "/" method = "POST" enctype="multipart/form-data" class = "upload-form">
-
-					<div class = "radio-select-1">
-
+			<div class="form-container">
+				<form class="upload-form" action="/" method="POST" enctype="multipart/form-data">
+					<div class="dropdown-container">
 						<h3>Compare</h3>
-						<select name = "firstmethod" id = "firstmethod">
-							<option value = "haar">HAAR Cascade</option>
-							<option value = "lbp">LBP Cascade</option>
-							<option value = "lbp2">LBP Improved Cascade</option>
-							<option value = "caffe">CAFFE Model</option>
+						<select name="firstmethod" id="firstmethod">
+							<option value="1">(C) HAAR Cascade</option>
+							<option value="2">(C) LBP Cascade</option>
+							<option value="3">(C) LBP Improved Cascade</option>
+							<option value="4">(N) CAFFE Model</option>
 						</select>
-	
 					</div>
-					
-					<div class = "custom-file">
-
-						<label class = "form-header">Select image</label><br>
-					
-						<input type = "file" class = "custom-file-input" name = "image" id = "image">
-						
+					<div class="custom-file-container">
+						<label class="form-header">Select image</label><br>
+						<input class="custom-file-input" id="image" type="file" name="image">
 					</div>
-
-					<div class = "radio-select-2">
-
+					<div class="dropdown-container">
 						<h3>Against</h3>
-						<select name = "secondmethod" id = "secondmethod">
-							<option value = "haar">HAAR Cascade</option>
-							<option value = "lbp">LBP Cascade</option>
-							<option value = "lbp2">LBP Improved Cascade</option>
-							<option value = "caffe">CAFFE Model</option>
+						<select name="secondmethod" id="secondmethod">
+							<option value="1">(C) HAAR Cascade</option>
+							<option value="2">(C) LBP Cascade</option>
+							<option value="3">(C) LBP Improved Cascade</option>
+							<option value="4">(N) CAFFE Model</option>
 						</select>
-	
 					</div>
-
 					<div>
-						<p>Neural Network Confidence Threshold: <span id="confdisplay"></span></p>
-						<input type = "range" min = "0" max = "100" value = "50" class = "slider" id = "confslider" name = "confidence">
-						<p>Minimum Face Size: <span id="sizedisplay"></span></p>
-						<input type = "range" min = "10" max = "100" value = "30" class = "slider" id = "sizeslider" name = "size">
+						<p>(N) Neural Network Confidence Lower Limit: <span id="confdisplay"></span></p>
+						<input class="slider" id="confslider" type="range" min="0" max="100" value="50" name="confidence">
+						<p>(N) Neural Network Blob Size: <span id="blobdisplay"></span></p>
+						<input class="slider" id="blobslider" type="range" min="100" max="600" value="300" name="blob">
+						<p>(C) Minimum Face Size: <span id="sizedisplay"></span></p>
+						<input class="slider" id="sizeslider" type="range" min="10" max="100" value="30" name="size">
 					</div>
-
-					<button type = "submit" class = "btn btn-primary">Upload</button>
-
+					<button class="btn btn-primary" type="submit">Upload</button>
 				</form>
-
 			</div>
-
-			<div class = "form-container">
-				
-				<div class = "result-container-1" id = "classimageframe">
-
+			<div class="form-container">
+				<div class="metrics-container" id="metrics-container">
+					<span id="metrics-display-confidence"></span>
+					<span id="metrics-display-size"></span>
+				</div>
+				<div class="result-1-container" id="classimageframe">
 					<h2>Result 1</h2>
-					
-					<img id = "classsourceimage">
-				
+					<img id="classsourceimage">
 				</div>
-
-				<div class = "result-container-2" id = "neurimageframe">
-
+				<div class="result-2-container" id="neurimageframe">
 					<h2>Result 2</h2>
-					
-					<img id = "neursourceimage">
-				
+					<img id="neursourceimage">
 				</div>
-			
 			</div>
-			
 		</div>
-
-		<script type = "text/javascript" src = "static/scripts/showProcessedImage.js"></script>
-		<script type = "text/javascript" src = "static/scripts/showSliderRange.js"></script>
-
+		<script type="text/javascript" src="static/scripts/showProcessedImage.js"></script>
+		<script type="text/javascript" src="static/scripts/showSliderRange.js"></script>
 	</body>
-
 </html>

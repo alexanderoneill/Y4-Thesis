@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, make_response, request, render_template, redirect
+# IMPORTS
+from flask import Flask, jsonify, make_response, request, render_template, redirect # For handling web requests
 from werkzeug.utils import secure_filename # For sanitising input filenames
-import os
+import os # For handling local file paths
 import cropper # For processing images
 import uuid # For uniquely identifying and linking user sessions and submitted images
 
@@ -13,6 +14,7 @@ app.config["IMAGE_UPLOADS"] = "./static/faces/user_images" # Default directory f
 app.config["MAX_CONTENT_LENGTH"] = 50 * (1024 ** 2) # Max filesize for uploaded images (50MB)
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "BMP"]
 
+# Does what it says on the tin, sanitises and validates filename and filetype
 def validateFilename(filename):
 
 	# If object is not a file with an extension
@@ -31,6 +33,7 @@ def validateFilename(filename):
 		
 		return False
 
+# When user uploads image
 @app.route("/", methods=["GET", "POST"])
 def upload_image():
 
@@ -57,34 +60,16 @@ def upload_image():
 				imagepath = ((os.path.join(app.config["IMAGE_UPLOADS"], filename))).replace(os.sep, "/")
 				image.save(imagepath)
 
-				# Get value of first dropdown
-				firstoption = request.form["firstmethod"]
-				if firstoption == "haar":
-					firstmethod = 1
-				elif firstoption == "lbp":
-					firstmethod = 2
-				elif firstoption == "lbp2":
-					firstmethod = 3
-				elif firstoption == "caffe":
-					firstmethod = 4
-				
-				# Get value of second dropdown
-				secondoption = request.form["secondmethod"]
-				if secondoption == "haar":
-					secondmethod = 1
-				elif secondoption == "lbp":
-					secondmethod = 2
-				elif secondoption == "lbp2":
-					secondmethod = 3
-				elif secondoption == "caffe":
-					secondmethod = 4
-
-				givenConfidence = request.form["confidence"]
-				givenSize = request.form["size"]
+				# Get value of dropdowns and sliders
+				firstoption = int(request.form["firstmethod"])
+				secondoption = int(request.form["secondmethod"])
+				givenConfidence = int(request.form["confidence"])
+				blobSize = int(request.form["blob"])
+				givenSize = int(request.form["size"])
 
 				# Run face detection and cropper for first image, generate unique identifier for processed image
-				imageCropped = cropper.determineMethod(imagepath, firstmethod, givenConfidence, givenSize)
-				secondImageCropped = cropper.determineMethod(imagepath, secondmethod, givenConfidence, givenSize)
+				imageCropped = cropper.determineMethod(imagepath, firstoption, givenConfidence, givenSize, blobSize)
+				secondImageCropped = cropper.determineMethod(imagepath, secondoption, givenConfidence, givenSize, blobSize)
 				imageID = str(uuid.uuid4().hex)
 				
 				# Generate filename for processed image, save processed image

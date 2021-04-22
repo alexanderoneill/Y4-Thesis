@@ -111,7 +111,7 @@ def cascadeCrop(imagePath, cascade, givenSize):
 
 	return imageScaled
 
-def deepCrop(imagePath, protoPath, modelPath, givenConfidence, givenMinSize):
+def deepCrop(imagePath, protoPath, modelPath, givenConfidence, blobSize):
 
 	# Define CAFFE model and image to use, as well as some variables we will use later
 	caffeNet = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
@@ -124,7 +124,7 @@ def deepCrop(imagePath, protoPath, modelPath, givenConfidence, givenMinSize):
 	STANDARD_HEIGHT = 335
 
 	# Preprocess image data
-	blob = cv2.dnn.blobFromImage(image, 1.0, (givenMinSize, givenMinSize), (104.0, 177.0, 123.0))
+	blob = cv2.dnn.blobFromImage(image, 1.0, (blobSize, blobSize), (104.0, 177.0, 123.0))
 	caffeNet.setInput(blob)
 	detections = caffeNet.forward()
 
@@ -133,11 +133,10 @@ def deepCrop(imagePath, protoPath, modelPath, givenConfidence, givenMinSize):
 		confidence = detections[0, 0, i, 2]
 
 		# If detected face exceeds confidence threshold
-		if confidence >= (int(givenConfidence)/100):
+		if confidence >= givenConfidence/100:
 
 			# Define bounding box around face
 			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-			(startX, startY, endX, endY) = box.astype("int")
 
 			# Append detected face to dictionary of high-confidence detections
 			facesDict[i] = [box, confidence]
@@ -167,14 +166,14 @@ def deepCrop(imagePath, protoPath, modelPath, givenConfidence, givenMinSize):
 
 	return imageScaled
 
-def determineMethod(imagePath, method, givenCofidence, givenSize):
+def determineMethod(imagePath, method, givenConfidence, givenSize, blobSize):
 
 	# Define method paths
 	HAARpath = "./venv/Lib/site-packages/cv2/data/haarcascade_frontalface_default.xml"
 	LBPpath = "./venv/Lib/site-packages/cv2/data/lbpcascade_frontalface.xml"
 	LBP2path = "./venv/Lib/site-packages/cv2/data/lbpcascade_frontalface_improved.xml"
-	CAFFEProtoPath = "deploy.prototxt.txt"
-	CAFFEModelPath = "res10_300x300_ssd_iter_140000.caffemodel"
+	CAFFEModel1ProtoPath = "./models/model1proto.txt"
+	CAFFEModel1Path = "./models/model1weights.caffemodel"
 
 	# Define method
 	if method == 1:
@@ -184,4 +183,4 @@ def determineMethod(imagePath, method, givenCofidence, givenSize):
 	elif method == 3:
 		return (cascadeCrop(imagePath, LBP2path, givenSize))
 	else:
-		return (deepCrop(imagePath, CAFFEProtoPath, CAFFEModelPath, givenCofidence, givenSize))
+		return (deepCrop(imagePath, CAFFEModel1ProtoPath, CAFFEModel1Path, givenConfidence, blobSize))

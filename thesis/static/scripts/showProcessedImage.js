@@ -26,7 +26,6 @@ window.onload = init;
 				
 				}
 
-			
 			}
 
 			// v----------v CODE ADAPTED FROM W3SCHOOLS.COM v----------v
